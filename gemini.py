@@ -21,6 +21,13 @@ from typing import Tuple, Optional
 credentials = service_account.Credentials.from_service_account_file('gemini-key.json')
 vertexai.init(project=PROJECT_ID, location=REGION, credentials=credentials)
 
+safety_config = {
+    generative_models.HarmCategory.HARM_CATEGORY_HATE_SPEECH: generative_models.HarmBlockThreshold.BLOCK_NONE,
+    generative_models.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: generative_models.HarmBlockThreshold.BLOCK_NONE,
+    generative_models.HarmCategory.HARM_CATEGORY_HARASSMENT: generative_models.HarmBlockThreshold.BLOCK_NONE,
+    generative_models.HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: generative_models.HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE
+}
+
 tools = generative_models.Tool(
     function_declarations=[
         generative_models.FunctionDeclaration(
@@ -96,6 +103,7 @@ class GenimiAI():
         self.model = GenerativeModel(
             model_name="gemini-pro",
             generation_config=self.config,
+            safety_settings=safety_config
         )
         self.token = {
             "prompt_token_count": 0,
@@ -220,6 +228,7 @@ class GenimiAI():
             _model = GenerativeModel(
                 model_name='gemini-pro-vision',
                 generation_config=self.config,
+                safety_settings=safety_config
             )
             chat = _model.start_chat()
 
@@ -227,6 +236,7 @@ class GenimiAI():
             _model = GenerativeModel(
                 model_name=model_name,
                 generation_config=self.config,
+                safety_settings=safety_config
             )
             chat = _model.start_chat()
 
