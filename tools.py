@@ -3,7 +3,6 @@ import dataclasses
 from bs4 import BeautifulSoup
 import re
 import json
-import minify_html
 from datetime import datetime
 from googleapiclient.discovery import build
 
@@ -215,8 +214,6 @@ def get_outer_html(url: str):
 
     outer_html = str(soup)
     outer_html = re.sub(r"<!--(.*?)-->", '', outer_html)
-
-    outer_html = minify_html.minify(outer_html, minify_js=True, remove_processing_instructions=True)
 
     # outerHTMLを取得して返す
     return outer_html
