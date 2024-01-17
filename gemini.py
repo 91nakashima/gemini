@@ -251,7 +251,6 @@ class GenimiAI():
         while parts:
             func_res = []
             func_num += 1
-            print(parts)
             for part in parts:
                 if 'text' in str(part):
                     return part.text
