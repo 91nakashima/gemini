@@ -72,7 +72,14 @@ class Notion:
         )
         response = response.json()
 
-        result = response["results"]
+        result = response.get("results", [])
+
+        if not len(result):
+            return NotionSearch(
+                result=[],
+                has_more=False,
+                next_cursor=""
+            )
 
         res_list = []
         for r in result:
