@@ -251,13 +251,13 @@ class GenimiAI():
         while parts:
             func_res = []
             func_num += 1
+            print(parts)
             for part in parts:
                 if 'text' in str(part):
                     return part.text
 
-                if 'function_call' in str(part):
+                elif 'function_call' in str(part):
                     function_name: str = part.function_call.name
-                    print('関数実行', function_name)
 
                     if function_name == "get_default_serch":
                         q: str = part.function_call.args['q']
@@ -306,16 +306,26 @@ class GenimiAI():
                                 }
                             )
                         )
-            try:
+
+            if not len(func_res):
                 res = chat.send_message(
-                    func_res,
+                    'もう一度考えてください。',
                     tools=[tools] if func_num < max_func_num and is_tool else []
                 )
                 usage_metadata = res._raw_response.usage_metadata
                 self.token['prompt_token_count'] += usage_metadata.prompt_token_count
                 self.token['total_token_count'] += usage_metadata.total_token_count
-            except ResponseBlockedError as e:
-                print(e)
-                break
+            else:
+                try:
+                    res = chat.send_message(
+                        func_res,
+                        tools=[tools] if func_num < max_func_num and is_tool else []
+                    )
+                    usage_metadata = res._raw_response.usage_metadata
+                    self.token['prompt_token_count'] += usage_metadata.prompt_token_count
+                    self.token['total_token_count'] += usage_metadata.total_token_count
+                except ResponseBlockedError as e:
+                    print(e)
+                    break
 
             parts = res.candidates[0].content.parts
