@@ -38,7 +38,7 @@ tools = generative_models.Tool(
                 "properties": {
                         "q": {
                             "type": "string",
-                            "description": "Query used for google search"
+                            "description": "Query used for google search.Be able to search by word."
                         }
                 },
                 "required": ["q"]
@@ -74,7 +74,7 @@ tools = generative_models.Tool(
                 "properties": {
                     "q": {
                         "type": "string",
-                        "description": "Query used for Notion"
+                        "description": "Query used for Notion.Be able to search by word."
                     },
                     "start_cursor": {
                         "type": "string",
