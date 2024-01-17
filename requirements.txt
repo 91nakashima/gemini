@@ -1,0 +1,14 @@
+autopep8==2.0.2
+inquirer==3.2.0
+
+openai>=1.6.0
+beautifulsoup4==4.12.2
+langchain>=0.0.351
+requests==2.31.0
+typing-inspect==0.8.0
+typing_extensions==4.5.0
+pydantic==1.10.11
+google-api-python-client>=2.111.0
+google-generativeai>=0.3.2
+google-cloud-aiplatform>=1.39.0
+minify-html>=0.15.0
